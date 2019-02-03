@@ -26,8 +26,17 @@ def random_birth(start_year=1990, end_year=2000):
 class Command(BaseCommand):
     help = '''fills DB'''
 
+    def add_arguments(self, parser):
+        parser.add_argument('-amount')
+
     def handle(self, *args, **options):
-        for i in range(10):
+
+        if options['amount']:
+            amount = int(options['amount'])
+        else:
+            amount = 10
+
+        for i in range(amount):
             doc_number = None
             try:
                 doc_number = str(uuid.uuid4())[:20]
