@@ -30,7 +30,7 @@ class Person(models.Model):
     birth_date = models.DateField(null=False)
     gender = models.CharField(max_length=1)
     phone = models.CharField(max_length=12, null=False)
-    start_education = models.DateField(auto_now_add=True)
+    start_education = models.DateField()
     finish_education = models.DateField()
     education_group = models.CharField(max_length=120, null=False)
     education_place = models.CharField(max_length=120, null=False)
