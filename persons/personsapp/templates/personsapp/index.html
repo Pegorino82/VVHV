@@ -19,7 +19,11 @@
     <tbody>
     {% for person in object_list %}
     <tr>
-        <th scope="row">{{person.last_name}} {{person.first_name}} {{person.patr_name}}</th>
+        <th scope="row">
+            <a href="{% url 'personsapp:detail_view' pk=person.pk %}">
+                {{person.last_name}} {{person.first_name}} {{person.patr_name}}
+            </a>
+        </th>
         <td>{{person.birth_date}}</td>
         <td>{{person.phone}}</td>
         <td>{{person.start_education}}</td>
@@ -28,9 +32,9 @@
         <td>{{person.education_place}}</td>
         <td>
             {% for doc in person.documents.all %}
-            {% if doc.document_type == 'PASS' %}
-            {{doc.get_document_type_display}} {{doc.number}}
-            {% endif %}
+                {% if doc.document_type == 'PASS' %}
+                    {{doc.get_document_type_display}} {{doc.number}}
+                {% endif %}
             {% endfor %}
         </td>
     </tr>

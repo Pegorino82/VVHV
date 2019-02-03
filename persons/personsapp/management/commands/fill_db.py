@@ -66,20 +66,3 @@ class Command(BaseCommand):
 
             except Exception as err:
                 print(f'Person error {err}')
-
-
-if __name__ == '__main__':
-    import random
-    from datetime import date
-    import re
-
-    first_names = ['Иван', 'Петр', 'Федор']
-    last_names = ['Иванов', 'Петров', 'Федоров']
-    patr_names = ['Иванович', 'Петрович', 'Федорович']
-
-
-    def random_birth():
-        day = random.randrange(1, 32)
-        month = random.randrange(1, 13)
-        year = random.randrange(1990, 2000)
-        return date(year, month, day)

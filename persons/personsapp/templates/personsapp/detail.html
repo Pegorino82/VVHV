@@ -1,0 +1,37 @@
+{% extends 'persons/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ФИО</th>
+        <th scope="col">Дата рождения</th>
+        <th scope="col">Телефон</th>
+        <th scope="col">Обучение с</th>
+        <th scope="col">Обучение по</th>
+        <th scope="col">Группа</th>
+        <th scope="col">Учебное заведение</th>
+        <th scope="col">Паспорт</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">{{object.last_name}} {{object.first_name}} {{object.patr_name}}</th>
+        <td>{{object.birth_date}}</td>
+        <td>{{object.phone}}</td>
+        <td>{{object.start_education}}</td>
+        <td>{{object.finish_education}}</td>
+        <td>{{object.education_group}}</td>
+        <td>{{object.education_place}}</td>
+        <td>
+            {% for doc in object.documents.all %}
+                {{ doc }}
+            {% endfor %}
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{% endblock %}
