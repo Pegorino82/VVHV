@@ -13,7 +13,7 @@ class Document(models.Model):
     number = models.CharField(max_length=120, unique=True, null=False)
     issue_date = models.DateField(null=False)
     document_type = models.CharField(max_length=30, choices=TYPES)
-    scan = models.FileField(upload_to='files/')
+    scan = models.FileField(upload_to='files/', null=True, blank=True)
 
     def __str__(self):
         return f'{self.document_type} #{self.number}'
