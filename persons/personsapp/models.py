@@ -27,6 +27,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length=40, null=False)
     last_name = models.CharField(max_length=40, null=False)
     patr_name = models.CharField(max_length=40, null=False)
+    birth_date = models.DateField(null=False)
     gender = models.CharField(max_length=1)
     phone = models.CharField(max_length=12, null=False)
     start_education = models.DateField(auto_now_add=True)
