@@ -9,6 +9,7 @@ from personsapp.forms import PersonModelForm
 class PersonListView(ListView):
     model = Person
     template_name = 'personsapp/index.html'
+    paginate_by = 3
 
 
 class PersonCreateView(CreateView):

@@ -14,8 +14,12 @@
     <title></title>
 </head>
 <body>
-{% block content %}
-{% endblock %}
+<main class="max-lg-5 flex-grow-1 my-p-side-bar">
+    <div class="d-flex justify-content-around flex-wrap mt-4 mb-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+</main>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

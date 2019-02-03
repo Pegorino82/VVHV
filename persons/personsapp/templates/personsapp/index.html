@@ -3,8 +3,6 @@
 
 {% block content %}
 
-<a class="btn btn-primary" href="{% url 'personsapp:create_view' %}">Создать</a>
-
 <table class="table">
     <thead>
     <tr>
@@ -28,10 +26,42 @@
         <td>{{person.finish_education}}</td>
         <td>{{person.education_group}}</td>
         <td>{{person.education_place}}</td>
-        <td>{{person.documents}}</td>
+        <td>
+            {% for doc in person.documents.all %}
+            {% if doc.document_type == 'PASS' %}
+            {{doc.get_document_type_display}} {{doc.number}}
+            {% endif %}
+            {% endfor %}
+        </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{{pagination_url}}?page={{page_obj.previous_page_number}}">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item">
+            <span class="page-link">
+                {{ page_obj.number }}/{{page_obj.paginator.num_pages}}
+            </span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="
+               {{pagination_url}}?page={{page_obj.next_page_number}}">Next
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
 
 {% endblock %}
