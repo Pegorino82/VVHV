@@ -17,7 +17,7 @@ class PersonModelForm(forms.ModelForm):
 class DocumentModelForm(forms.ModelForm):
     class Meta:
         model = Document
-        exclude = ()
+        fields = ('document_type', 'number', 'issue_date', 'scan')
 
     def __init__(self, *args, **kwargs):
         super(DocumentModelForm, self).__init__(*args, **kwargs)
