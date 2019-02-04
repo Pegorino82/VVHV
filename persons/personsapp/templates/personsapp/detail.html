@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block content %}
-
+<a class="btn btn-light" href="{% url 'personsapp:list_view' %}">Назад</a>
+<a class="btn btn-light" href="{% url 'personsapp:detail_view' pk=object.pk %}">Редактировать</a>
 <table class="table">
     <thead>
     <tr>
