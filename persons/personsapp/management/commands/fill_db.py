@@ -1,8 +1,12 @@
 from django.core.management.base import BaseCommand
+from django.conf import settings
 import random
-from datetime import date, timedelta
 import uuid
-from personsapp.models import Document, Person
+import os
+from shutil import copy2
+from datetime import date, timedelta
+
+from personsapp.models import Document, Person, Image
 
 first_names = ['Иван', 'Петр', 'Федор']
 last_names = ['Иванов', 'Петров', 'Федоров']
@@ -30,31 +34,36 @@ class Command(BaseCommand):
         parser.add_argument('-amount')
 
     def handle(self, *args, **options):
+        Image.objects.all().delete()
+        Document.objects.all().delete()
+        Person.objects.all().delete()
 
         if options['amount']:
             amount = int(options['amount'])
         else:
             amount = 10
 
-        for i in range(amount):
-            doc_number = None
-            try:
-                doc_number = str(uuid.uuid4())[:20]
-                new_doc = Document(
-                    number=doc_number,
-                    issue_date=random_birth(2015, 2018),
-                    document_type=random.choice(doc_types)
-                )
-                new_doc.save()
-            except Exception as err:
-                print(f'Document error {err}')
+        images_path = os.path.join(settings.BASE_DIR, 'test_images')
+        images_list = os.listdir(images_path)
 
+        for img in images_list:
+            if img.endswith('jpg'):
+                try:
+                    image = Image(
+                        title=img,
+                        image=img
+                    )
+                    image.save()
+                    copy2(os.path.join(images_path, img), os.path.join(settings.BASE_DIR, 'media'))
+                except Exception as err:
+                    print(f'Image {err}')
+
+        images_list = Image.objects.all()
+
+        for i in range(amount):
             start_education = random_birth(2015, 2018)
             finish_education = start_education + timedelta(days=4 * 365)
-
             try:
-                new_doc = Document.objects.filter(number=doc_number)[0]
-
                 new_person = Person(
                     first_name=random.choice(first_names),
                     last_name=random.choice(last_names),
@@ -69,9 +78,41 @@ class Command(BaseCommand):
                 )
                 new_person.save()
 
-                last_person = Person.objects.latest('id')
-
-                last_person.documents.add(new_doc)
-
             except Exception as err:
                 print(f'Person error {err}')
+
+            try:
+                last_person = Person.objects.latest('id')
+                person_age = last_person.age
+                if person_age >= 14:
+                    doc_number = str(uuid.uuid4())[:20]
+                    passport = Document(
+                        number=doc_number,
+                        issue_date=random_birth(2015, 2018),
+                        document_type='PASS',
+                        scan=random.choice(images_list),
+                        person=last_person
+                    )
+                    passport.save()
+                doc_number = str(uuid.uuid4())[:20]
+                birth_cert = Document(
+                    number=doc_number,
+                    issue_date=random_birth(2015, 2018),
+                    document_type='BIRTH',
+                    scan=random.choice(images_list),
+                    person=last_person
+                )
+                birth_cert.save()
+
+                doc_number = str(uuid.uuid4())[:20]
+                student_card = Document(
+                    number=doc_number,
+                    issue_date=random_birth(2015, 2018),
+                    document_type='STUD',
+                    scan=random.choice(images_list),
+                    person=last_person
+                )
+                student_card.save()
+
+            except Exception as err:
+                print(f'Document error {err}')
