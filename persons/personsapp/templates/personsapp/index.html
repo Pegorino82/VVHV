@@ -14,6 +14,7 @@
         <th scope="col">Группа</th>
         <th scope="col">Учебное заведение</th>
         <th scope="col">Паспорт</th>
+        <th scope="col">Возраст</th>
     </tr>
     </thead>
     <tbody>
@@ -33,10 +34,11 @@
         <td>
             {% for doc in person.documents.all %}
                 {% if doc.document_type == 'PASS' %}
-                    {{doc.get_document_type_display}} {{doc.number}}
+                    {{doc.number}}
                 {% endif %}
             {% endfor %}
         </td>
+        <td>{{person.age}}</td>
     </tr>
     {% endfor %}
     </tbody>

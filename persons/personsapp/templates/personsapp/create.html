@@ -2,18 +2,10 @@
 {% load static %}
 
 {% block content %}
+<a class="btn btn-light" href="{% url 'personsapp:list_view' %}">К списку</a>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for err in form.not_field_errors %}
-        <span>
-            {{ err }}
-        </span>
-    {% endfor %}
-    {{form.as_p}}
-    <div class="input-group">
-        <input name="logup" type="submit" value="Создать">
-    </div>
-</form>
+{% with action='Создать' %}
+    {% include 'personsapp/includes/form.html' %}
+{% endwith %}
 
 {% endblock %}

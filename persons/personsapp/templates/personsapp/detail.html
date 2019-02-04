@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block content %}
-<a class="btn btn-light" href="{% url 'personsapp:list_view' %}">Назад</a>
-<a class="btn btn-light" href="{% url 'personsapp:detail_view' pk=object.pk %}">Редактировать</a>
+<a class="btn btn-light" href="{% url 'personsapp:list_view' %}">К списку</a>
+<a class="btn btn-light" href="{% url 'personsapp:update_view' pk=object.pk %}">Редактировать</a>
+
 <table class="table">
     <thead>
     <tr>
@@ -14,7 +15,7 @@
         <th scope="col">Обучение по</th>
         <th scope="col">Группа</th>
         <th scope="col">Учебное заведение</th>
-        <th scope="col">Паспорт</th>
+        <th scope="col">Документы</th>
     </tr>
     </thead>
     <tbody>
@@ -27,9 +28,28 @@
         <td>{{object.education_group}}</td>
         <td>{{object.education_place}}</td>
         <td>
-            {% for doc in object.documents.all %}
-                {{ doc }}
-            {% endfor %}
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Документы
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    {% for doc in object.documents.all %}
+                    <div class="btn-group dropleft">
+                        <div class="card" style="width: 18rem;">
+                            {% if doc.scan %}
+                            <img class="card-img-top" src="{{doc.scan.image.url}}" alt="Card image cap"
+                                 style="width: 150px;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ doc.get_document_type_display }}</h5>
+                                <p class="card-text">{{ doc.number }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </td>
     </tr>
     </tbody>
